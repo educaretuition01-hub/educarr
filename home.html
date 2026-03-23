@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDUCARE</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f2027;
+    color:white;
+}
+
+/* smooth animation */
+.card{
+    background:#1a1a1a;
+    margin:20px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px #00ffff40;
+    animation:slideUp 0.8s ease;
+}
+
+@keyframes slideUp{
+    from{opacity:0; transform:translateY(40px);}
+    to{opacity:1;}
+}
+
+h2{
+    color:#00ffff;
+}
+
+/* floating icons */
+.icon-bar{
+    position:fixed;
+    bottom:20px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+/* WhatsApp button */
+.whatsapp{
+    background:#25D366;
+    padding:15px;
+    border-radius:50%;
+    font-size:20px;
+    color:white;
+    text-decoration:none;
+}
+
+/* Map button */
+.map{
+    background:#ff4444;
+    padding:15px;
+    border-radius:50%;
+    font-size:20px;
+    color:white;
+    text-decoration:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+<h2>Founder</h2>
+<p><b>Rupak Chakraborty</b></p>
+<p>M.A in English Literature</p>
+<p>University of Calcutta</p>
+</div>
+
+<div class="card">
+<h2>Classes</h2>
+<p>Class 5-7: All Subjects</p>
+<p>Class 8-12: Arts + English</p>
+<p>English Medium: Only English</p>
+</div>
+
+<div class="card">
+<h2>Courses</h2>
+<p>Spoken English</p>
+<p>Competitive Exams (Rail, Bank, Police)</p>
+</div>
+
+<div class="card">
+<h2>Contact</h2>
+<p>📞 9804413135</p>
+<p>📞 8240358587</p>
+</div>
+
+<!-- Floating Icons -->
+<div class="icon-bar">
+
+<a href="https://wa.me/918240358587" class="whatsapp">💬</a>
+
+<a href="https://www.google.com/maps/search/?api=1&query=45+Malancha+Road+Garifa" class="map">📍</a>
+
+</div>
+
+</body>
+</html>
