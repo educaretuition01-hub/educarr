@@ -1,0 +1,2 @@
+# educarr
+educate(tuition) 
