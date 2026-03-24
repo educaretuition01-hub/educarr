@@ -8,12 +8,12 @@
 body{
     margin:0;
     font-family:Arial;
-    background:linear-gradient(to right,#0f2027,#000000);
+    background:linear-gradient(to right,#0f2027,#000);
     color:white;
     overflow-x:hidden;
 }
 
-/* Particle canvas */
+/* Particle */
 canvas{
     position:fixed;
     top:0;
@@ -21,7 +21,7 @@ canvas{
     z-index:-1;
 }
 
-/* Glass Cards */
+/* Glass cards */
 .card{
     background:rgba(255,255,255,0.05);
     backdrop-filter:blur(12px);
@@ -29,16 +29,10 @@ canvas{
     padding:20px;
     border-radius:15px;
     box-shadow:0 0 20px #00ffff30;
-    animation:slideUp 0.8s ease;
-    transition:0.3s;
+    animation:fadeUp 0.8s ease;
 }
 
-.card:hover{
-    transform:scale(1.02);
-    box-shadow:0 0 25px #00ffff80;
-}
-
-@keyframes slideUp{
+@keyframes fadeUp{
     from{opacity:0; transform:translateY(40px);}
     to{opacity:1;}
 }
@@ -48,7 +42,7 @@ h2{
     text-shadow:0 0 10px #00ffff;
 }
 
-/* Floating icons */
+/* ICON BAR FIXED */
 .icon-bar{
     position:fixed;
     bottom:20px;
@@ -58,37 +52,40 @@ h2{
     gap:25px;
 }
 
+/* COMMON ICON STYLE (FIX GAP ISSUE) */
+.icon{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden; /* FIX GAP */
+    box-shadow:0 0 15px rgba(255,255,255,0.4);
+    transition:0.3s;
+}
+
+.icon:hover{
+    transform:scale(1.1);
+}
+
 /* WhatsApp */
-.whatsapp img{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    transition:0.3s;
+.whatsapp{
+    background:#25D366;
 }
 
-.whatsapp img:hover{
-    transform:scale(1.1);
+/* Map */
+.map{
+    background:white;
 }
 
-/* Google Map icon */
-.map img{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    transition:0.3s;
-}
-
-.map img:hover{
-    transform:scale(1.1);
-}
-
-/* Glow effect */
-.icon-bar a{
-    box-shadow:0 0 15px rgba(255,255,255,0.3);
-    border-radius:50%;
+/* ICON IMAGE FIX */
+.icon img{
+    width:70%;
+    height:70%;
+    object-fit:contain;
 }
 </style>
-
 </head>
 
 <body>
@@ -128,14 +125,14 @@ h2{
 <p>📞 8240358587</p>
 </div>
 
-<!-- Floating Icons -->
+<!-- ICONS -->
 <div class="icon-bar">
 
-<a href="https://wa.me/918240358587" class="whatsapp">
+<a href="https://wa.me/918240358587" class="icon whatsapp">
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
 </a>
 
-<a href="https://www.google.com/maps/search/?api=1&query=45+Malancha+Road+Garifa" class="map">
+<a href="https://www.google.com/maps/search/?api=1&query=45+Malancha+Road+Garifa" class="icon map">
 <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Google_Maps_icon_%282020%29.svg">
 </a>
 
@@ -150,7 +147,7 @@ canvas.height = window.innerHeight;
 
 let particles = [];
 
-for(let i=0;i<35;i++){ // ultra smooth
+for(let i=0;i<30;i++){ // ultra smooth
     particles.push({
         x: Math.random()*canvas.width,
         y: Math.random()*canvas.height,
