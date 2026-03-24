@@ -17,36 +17,55 @@ body{
     overflow:hidden;
 }
 
-/* Heading style */
-h1{
-    font-size:38px;
-    font-weight:bold;
+/* Container */
+.container{
     text-align:center;
-    text-shadow:0 0 10px #00ffff, 0 0 20px #00ffff;
+    padding:20px;
+    backdrop-filter: blur(10px);
+}
+
+/* Logo */
+.logo{
+    width:280px;
+    max-width:80%;
+    margin-bottom:20px;
     animation:fadeIn 1.5s ease-in-out;
+}
+
+/* Heading */
+h1{
+    font-size:32px;
+    margin:10px 0;
+    text-shadow:0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+/* Sub text */
+p{
+    color:#ccc;
+    font-size:14px;
 }
 
 /* Button */
 a{
     display:inline-block;
-    margin-top:25px;
-    padding:12px 25px;
+    margin-top:20px;
+    padding:12px 28px;
     background:#00ffff;
     color:black;
     text-decoration:none;
-    border-radius:6px;
+    border-radius:30px;
     font-weight:bold;
     transition:0.3s;
 }
 
 a:hover{
-    transform:scale(1.05);
+    transform:scale(1.08);
+    box-shadow:0 0 15px #00ffff;
 }
 
-/* Arrow animation */
+/* Arrow */
 .arrow{
     margin-left:8px;
-    display:inline-block;
     animation:move 1s infinite alternate;
 }
 
@@ -55,18 +74,23 @@ a:hover{
     to{transform:translateX(6px);}
 }
 
-/* Fade */
 @keyframes fadeIn{
     from{opacity:0; transform:translateY(20px);}
     to{opacity:1;}
 }
 
-/* Particle canvas */
+/* Canvas */
 canvas{
     position:fixed;
     top:0;
     left:0;
     z-index:-1;
+}
+
+/* Mobile tweak */
+@media(max-width:500px){
+    h1{font-size:24px;}
+    .logo{width:220px;}
 }
 </style>
 
@@ -76,11 +100,18 @@ canvas{
 
 <canvas id="particles"></canvas>
 
-<div>
-<h1>Welcome To EDUCARE</h1>
-<div style="text-align:center;">
-<a href="home.html">Enter <span class="arrow">➜</span></a>
-</div>
+<div class="container">
+
+    <!-- 🔥 Apna logo yaha daalo -->
+    <img src="logo.png" alt="EDUCARE Logo" class="logo">
+
+    <h1>Welcome To EDUCARE</h1>
+    <p>Tuition & Coaching Center</p>
+
+    <a href="home.html">
+        Enter <span class="arrow">➜</span>
+    </a>
+
 </div>
 
 <script>
@@ -92,13 +123,13 @@ canvas.height = window.innerHeight;
 
 let particles = [];
 
-for(let i=0;i<60;i++){
+for(let i=0;i<80;i++){
     particles.push({
         x: Math.random()*canvas.width,
         y: Math.random()*canvas.height,
         r: Math.random()*2,
-        dx: (Math.random()-0.5)*0.5,
-        dy: (Math.random()-0.5)*0.5
+        dx: (Math.random()-0.5)*0.6,
+        dy: (Math.random()-0.5)*0.6
     });
 }
 
