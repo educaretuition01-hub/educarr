@@ -1,13 +1,15 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EDUCARE</title><style>
+<title>EDUCARE</title>
+
+<style>
 body{
     margin:0;
     font-family:Arial, sans-serif;
     background:linear-gradient(to right,#0f2027,#000);
     color:white;
-    overflow-x:hidden;
 }
 
 /* LOADER */
@@ -26,13 +28,12 @@ body{
 
 .loader-logo{
     width:120px;
-    margin-bottom:10px;
     animation:zoomIn 1s ease;
 }
 
 @keyframes zoomIn{
     from{transform:scale(0.5); opacity:0;}
-    to{transform:scale(1); opacity:1;}
+    to{transform:scale(1);}
 }
 
 /* HEADER */
@@ -42,14 +43,13 @@ body{
     display:flex;
     align-items:center;
     gap:10px;
-    padding:12px 15px;
+    padding:12px;
     background:rgba(0,0,0,0.7);
     backdrop-filter:blur(10px);
-    box-shadow:0 0 15px #00ffff40;
 }
 
-.header img{ width:35px; }
-.header span{ color:#00ffff; font-size:18px; font-weight:bold; }
+.header img{width:35px;}
+.header span{color:#00ffff;font-weight:bold;}
 
 /* HERO */
 .hero{
@@ -58,55 +58,36 @@ body{
     animation:fadeUp 1s ease;
 }
 
-.hero img{
-    width:150px;
-    margin-bottom:15px;
-}
-
-.hero h1{
-    font-size:28px;
-    text-shadow:0 0 10px #00ffff;
-}
-
-.hero p{
-    color:#ccc;
-    margin-top:5px;
-}
-
+.hero img{width:150px;}
+.hero h1{text-shadow:0 0 10px #00ffff;}
 .hero button{
     margin-top:20px;
     padding:12px 25px;
     border:none;
     border-radius:25px;
     background:#00ffff;
-    color:black;
     font-weight:bold;
 }
 
-/* CARDS */
+/* CARD */
 .card{
     background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(15px);
     margin:15px;
     padding:18px;
-    border-radius:18px;
-    box-shadow:0 0 20px #00ffff20;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
     animation:fadeUp 0.8s ease;
 }
 
-h2{ color:#00ffff; }
+h2{color:#00ffff;}
 
 @keyframes fadeUp{
-    from{opacity:0; transform:translateY(40px);} 
+    from{opacity:0;transform:translateY(40px);}
     to{opacity:1;}
 }
 
 /* FORM */
-.form{
-    margin:20px;
-}
-
-.form input{
+input{
     width:100%;
     padding:10px;
     margin:8px 0;
@@ -114,7 +95,7 @@ h2{ color:#00ffff; }
     border-radius:8px;
 }
 
-.form button{
+button{
     width:100%;
     padding:12px;
     background:#00ffff;
@@ -123,7 +104,7 @@ h2{ color:#00ffff; }
     font-weight:bold;
 }
 
-/* FLOAT ICONS */
+/* FLOAT BUTTONS */
 .icon-bar{
     position:fixed;
     bottom:20px;
@@ -134,100 +115,163 @@ h2{ color:#00ffff; }
 }
 
 .icon{
-    width:60px;
-    height:60px;
+    width:55px;
+    height:55px;
     border-radius:50%;
+    background:rgba(255,255,255,0.1);
     display:flex;
     justify-content:center;
     align-items:center;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(10px);
     animation:pulse 2s infinite;
 }
 
-.icon img{ width:65%; }
+.icon img{width:60%;}
 
 @keyframes pulse{
-    0%{box-shadow:0 0 10px #00ffff;} 
-    50%{box-shadow:0 0 25px #00ffff;} 
-    100%{box-shadow:0 0 10px #00ffff;}
+    0%{box-shadow:0 0 10px #00ffff;}
+    50%{box-shadow:0 0 25px #00ffff;}
 }
 
+/* PARTICLES */
 canvas{
     position:fixed;
     top:0;
     left:0;
     z-index:-1;
 }
+</style>
+</head>
 
-</style></head><body><!-- LOADER --><div id="loader">
+<body>
+
+<!-- LOADER -->
+<div id="loader">
     <img src="logo.png" class="loader-logo">
     <p>Loading EDUCARE...</p>
-</div><!-- HEADER --><div class="header">
+</div>
+
+<!-- HEADER -->
+<div class="header">
     <img src="logo.png">
     <span>EDUCARE</span>
-</div><canvas id="particles"></canvas>
+</div>
 
-<!-- HERO --><div class="hero">
+<canvas id="particles"></canvas>
+
+<!-- HERO -->
+<div class="hero">
     <img src="logo.png">
     <h1>Premium Tuition Classes</h1>
     <p>Learn Smart • Score High</p>
-    <button onclick="document.getElementById('form').scrollIntoView()">Join Now</button>
-</div><!-- CONTENT --><div class="card">
+    <button onclick="document.getElementById('form').scrollIntoView()">
+        Join Now
+    </button>
+</div>
+
+<!-- CONTENT -->
+<div class="card">
 <h2>Founder</h2>
 <p><b>Rupak Chakraborty</b></p>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h2>Classes</h2>
 <p>Class 5-7: All Subjects</p>
 <p>Class 8-12: Arts + English</p>
-</div><!-- FORM --><div class="card form" id="form">
+</div>
+
+<!-- FORM -->
+<div class="card" id="form">
 <h2>Admission Form</h2>
+
 <input type="text" id="name" placeholder="Your Name">
 <input type="text" id="class" placeholder="Class">
 <input type="text" id="phone" placeholder="Phone Number">
-<button onclick="sendWhatsApp()">Submit</button>
-</div><!-- FLOAT ICONS --><div class="icon-bar">
+
+<button onclick="sendWhatsApp()">📲 Submit via WhatsApp</button>
+
+</div>
+
+<!-- FLOAT ICONS -->
+<div class="icon-bar">
 <a href="https://wa.me/918240358587" class="icon">
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
 </a>
+
 <a href="https://www.google.com/maps/search/?api=1&query=45+Malancha+Road+Garifa" class="icon">
 <img src="map.png">
 </a>
-</div><script>
-window.onload = ()=> document.getElementById("loader").style.display="none";
+</div>
 
-function sendWhatsApp(){
-    let name = document.getElementById("name").value;
-    let cls = document.getElementById("class").value;
-    let phone = document.getElementById("phone").value;
+<script>
 
-    let msg = `New Admission:%0AName: ${name}%0AClass: ${cls}%0APhone: ${phone}`;
-    window.open(`https://wa.me/918240358587?text=${msg}`);
+/* LOADER */
+window.onload = ()=> {
+    document.getElementById("loader").style.display="none";
 }
 
+/* WHATSAPP FUNCTION */
+function sendWhatsApp(){
+    let name = document.getElementById("name").value.trim();
+    let cls = document.getElementById("class").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+
+    if(name==="" || cls==="" || phone===""){
+        alert("⚠️ Please fill all details!");
+        return;
+    }
+
+    let msg = `📚 *New Admission Request* %0A%0A👤 Name: ${name} %0A🎓 Class: ${cls} %0A📞 Phone: ${phone}`;
+    let url = `https://wa.me/918240358587?text=${msg}`;
+
+    window.open(url,"_blank");
+
+    document.getElementById("name").value="";
+    document.getElementById("class").value="";
+    document.getElementById("phone").value="";
+}
+
+/* PARTICLES */
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
+
 for(let i=0;i<50;i++){
-    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2,dx:(Math.random()-0.5)*0.4,dy:(Math.random()-0.5)*0.4});
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2,
+        dx:(Math.random()-0.5)*0.4,
+        dy:(Math.random()-0.5)*0.4
+    });
 }
 
 function animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
+
     particles.forEach(p=>{
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fillStyle="#00ffff";
         ctx.fill();
-        p.x+=p.dx; p.y+=p.dy;
+
+        p.x+=p.dx;
+        p.y+=p.dy;
+
         if(p.x<0||p.x>canvas.width) p.dx*=-1;
         if(p.y<0||p.y>canvas.height) p.dy*=-1;
     });
+
     requestAnimationFrame(animate);
 }
+
 animate();
-</script></body>
+
+</script>
+
+</body>
 </html>
