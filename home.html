@@ -10,9 +10,18 @@ body{
     font-family:Arial;
     background:#0f2027;
     color:white;
+    overflow-x:hidden;
 }
 
-/* smooth animation */
+/* Particle canvas */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/* Cards */
 .card{
     background:#1a1a1a;
     margin:20px;
@@ -31,7 +40,7 @@ h2{
     color:#00ffff;
 }
 
-/* floating icons */
+/* Floating icons */
 .icon-bar{
     position:fixed;
     bottom:20px;
@@ -41,14 +50,11 @@ h2{
     gap:20px;
 }
 
-/* WhatsApp button */
-.whatsapp{
-    background:#25D366;
-    padding:15px;
+/* WhatsApp Image Icon */
+.whatsapp img{
+    width:50px;
+    height:50px;
     border-radius:50%;
-    font-size:20px;
-    color:white;
-    text-decoration:none;
 }
 
 /* Map button */
@@ -65,6 +71,8 @@ h2{
 </head>
 
 <body>
+
+<canvas id="particles"></canvas>
 
 <div class="card">
 <h2>Founder</h2>
@@ -87,6 +95,13 @@ h2{
 </div>
 
 <div class="card">
+<h2>Location</h2>
+<p>45, Malancha Road</p>
+<p>Nearest Railway Station: Garifa</p>
+<p>Near Kishoresangha Club, Gorurfari</p>
+</div>
+
+<div class="card">
 <h2>Contact</h2>
 <p>📞 9804413135</p>
 <p>📞 8240358587</p>
@@ -95,11 +110,59 @@ h2{
 <!-- Floating Icons -->
 <div class="icon-bar">
 
-<a href="https://wa.me/918240358587" class="whatsapp">💬</a>
+<a href="https://wa.me/918240358587" class="whatsapp">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+</a>
 
 <a href="https://www.google.com/maps/search/?api=1&query=45+Malancha+Road+Garifa" class="map">📍</a>
 
 </div>
+
+<script>
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<40;i++){ // low = no lag
+    particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*2,
+        dx: (Math.random()-0.5)*0.4,
+        dy: (Math.random()-0.5)*0.4
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="#00ffff";
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if(p.x<0||p.x>canvas.width) p.dx*=-1;
+        if(p.y<0||p.y>canvas.height) p.dy*=-1;
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", ()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
 
 </body>
 </html>
