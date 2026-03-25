@@ -52,42 +52,30 @@ body{
 .hero{
     text-align:center;
     padding:40px 20px;
-    animation:fadeUp 1s ease;
 }
 .hero img{width:150px;}
 .hero h1{text-shadow:0 0 10px #00ffff;}
-.hero button{
-    margin-top:20px;
-    padding:12px 25px;
-    border:none;
-    border-radius:25px;
-    background:#00ffff;
-    font-weight:bold;
-}
 
 /* CARD */
 .card{
     background:rgba(255,255,255,0.05);
-    margin:15px;
+    margin:15px auto;
     padding:18px;
     border-radius:15px;
     backdrop-filter:blur(10px);
-    animation:fadeUp 0.8s ease;
+    max-width:500px;
 }
 h2{color:#00ffff;}
-@keyframes fadeUp{
-    from{opacity:0;transform:translateY(40px);}
-    to{opacity:1;}
-}
 
 /* FORM */
-input{
+input, select{
     width:100%;
     padding:10px;
     margin:8px 0;
     border:none;
     border-radius:8px;
 }
+
 button{
     width:100%;
     padding:12px;
@@ -114,13 +102,8 @@ button{
     display:flex;
     justify-content:center;
     align-items:center;
-    animation:pulse 2s infinite;
 }
 .icon img{width:60%;}
-@keyframes pulse{
-    0%{box-shadow:0 0 10px #00ffff;}
-    50%{box-shadow:0 0 25px #00ffff;}
-}
 
 /* PARTICLES */
 canvas{
@@ -153,9 +136,6 @@ canvas{
     <img src="logo.png">
     <h1>Premium Tuition Classes</h1>
     <p>Learn Smart • Score High</p>
-    <button onclick="document.getElementById('form').scrollIntoView()">
-        Join Now
-    </button>
 </div>
 
 <!-- CONTENT -->
@@ -171,14 +151,25 @@ canvas{
 </div>
 
 <!-- FORM -->
-<div class="card" id="form">
+<div class="card">
 <h2>Admission Form</h2>
 
-<input type="text" id="name" placeholder="Your Name">
-<input type="text" id="class" placeholder="Class">
-<input type="text" id="phone" placeholder="Phone Number">
+<input id="name" placeholder="Your Name">
+
+<select id="class" onchange="handleClass()">
+<option value="">Select Class</option>
+<option value="5-7">Class 5-7</option>
+<option value="8-12">Class 8-12</option>
+</select>
+
+<select id="group" onchange="handleGroup()" style="display:none"></select>
+
+<select id="subject" style="display:none"></select>
+
+<input id="phone" placeholder="Phone Number">
 
 <button onclick="sendWhatsApp()">📲 Submit via WhatsApp</button>
+
 </div>
 
 <!-- FLOAT ICONS -->
@@ -199,21 +190,77 @@ window.onload = ()=> {
     document.getElementById("loader").style.display="none";
 }
 
-/* WHATSAPP (FINAL FIX) */
+/* CLASS LOGIC */
+function handleClass(){
+    let cls = document.getElementById("class").value;
+    let group = document.getElementById("group");
+    let subject = document.getElementById("subject");
+
+    group.style.display="none";
+    subject.style.display="none";
+
+    if(cls==="5-7"){
+        subject.style.display="block";
+        subject.innerHTML = `
+        <option>BNG</option>
+        <option>ENG</option>
+        <option>MATH</option>
+        <option>GEO</option>
+        <option>SCIENCE</option>
+        <option>HIST</option>
+        <option>SANSKRIT</option>`;
+    }
+
+    if(cls==="8-12"){
+        group.style.display="block";
+        group.innerHTML = `
+        <option value="">Select Group</option>
+        <option value="Arts">Arts</option>
+        <option value="English">English</option>`;
+    }
+}
+
+/* GROUP LOGIC */
+function handleGroup(){
+    let group = document.getElementById("group").value;
+    let subject = document.getElementById("subject");
+
+    subject.style.display="block";
+
+    if(group==="English"){
+        subject.innerHTML = `<option>English</option>`;
+    }
+
+    if(group==="Arts"){
+        subject.innerHTML = `
+        <option>GEO</option>
+        <option>HIST</option>
+        <option>BNG</option>`;
+    }
+}
+
+/* WHATSAPP FIX */
 function sendWhatsApp(){
     let name = document.getElementById("name").value.trim();
-    let cls = document.getElementById("class").value.trim();
+    let cls = document.getElementById("class").value;
+    let group = document.getElementById("group").value;
+    let subject = document.getElementById("subject").value;
     let phone = document.getElementById("phone").value.trim();
 
     if(name==="" || cls==="" || phone===""){
-        alert("⚠️ Please fill all details!");
+        alert("Fill all details!");
         return;
     }
 
-    let msg = `📚 *New Admission Request* %0A%0A👤 Name: ${name} %0A🎓 Class: ${cls} %0A📞 Phone: ${phone}`;
-    let url = `https://wa.me/918240358587?text=${msg}`;
+    let msg = `New Admission:
+Name: ${name}
+Class: ${cls}
+Group: ${group}
+Subject: ${subject}
+Phone: ${phone}`;
 
-    // 🔥 MOBILE SAFE
+    let url = `https://api.whatsapp.com/send?phone=918240358587&text=${encodeURIComponent(msg)}`;
+
     window.location.href = url;
 }
 
