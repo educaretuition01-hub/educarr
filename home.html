@@ -7,7 +7,7 @@
 <style>
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
     background:linear-gradient(to right,#0f2027,#000);
     color:white;
 }
@@ -19,14 +19,9 @@ body{
     height:100%;
     background:black;
     display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
     z-index:9999;
-    color:#00ffff;
-}
-.loader-logo{
-    width:120px;
 }
 
 /* HEADER */
@@ -34,38 +29,27 @@ body{
     position:sticky;
     top:0;
     display:flex;
-    align-items:center;
     gap:10px;
     padding:12px;
     background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(10px);
 }
 .header img{width:35px;}
 .header span{color:#00ffff;font-weight:bold;}
 
-/* HERO */
-.hero{
-    text-align:center;
-    padding:30px 15px;
-}
-.hero img{width:120px;}
-.hero h1{font-size:22px;text-shadow:0 0 10px #00ffff;}
-
 /* CARD */
 .card{
     background:rgba(255,255,255,0.05);
-    margin:15px;
+    margin:15px auto;
     padding:18px;
     border-radius:15px;
-    backdrop-filter:blur(10px);
+    max-width:500px;
 }
-h2{color:#00ffff;}
 
 /* FORM */
 input, select{
     width:100%;
-    padding:10px;
-    margin:8px 0;
+    padding:12px;
+    margin:10px 0;
     border:none;
     border-radius:8px;
 }
@@ -79,43 +63,62 @@ button{
     font-weight:bold;
 }
 
-/* CHECKBOX */
-#subjectsBox label{
-    display:block;
-    margin:5px 0;
+/* 🔥 STYLISH CHECKBOX */
+#subjectsBox{
+    margin-top:10px;
 }
 
-/* PARTICLES */
-canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:-1;
+.subject-btn{
+    display:inline-block;
+    padding:8px 12px;
+    margin:5px;
+    border-radius:20px;
+    border:1px solid #00ffff;
+    cursor:pointer;
+}
+
+.subject-btn input{
+    display:none;
+}
+
+.subject-btn.active{
+    background:#00ffff;
+    color:black;
+}
+
+/* MOBILE */
+@media (max-width:600px){
+    .card{
+        margin:10px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-    <img src="logo.png" class="loader-logo">
-    <p>Loading EDUCARE...</p>
-</div>
+<div id="loader">Loading...</div>
 
-<!-- HEADER -->
 <div class="header">
     <img src="logo.png">
     <span>EDUCARE</span>
 </div>
 
-<canvas id="particles"></canvas>
+<!-- INFO -->
+<div class="card">
+<h2>Founder</h2>
+<p><b>Rupak Chakraborty</b></p>
+</div>
 
-<!-- HERO -->
-<div class="hero">
-    <img src="logo.png">
-    <h1>Premium Tuition Classes</h1>
-    <p>Learn Smart • Score High</p>
+<div class="card">
+<h2>Location</h2>
+<p>45 Malancha Road, Garifa</p>
+</div>
+
+<div class="card">
+<h2>Courses</h2>
+<p>Class 5-7: All Subjects</p>
+<p>Class 8-12: Arts & English</p>
 </div>
 
 <!-- FORM -->
@@ -132,7 +135,6 @@ canvas{
 
 <select id="group" onchange="handleGroup()" style="display:none"></select>
 
-<!-- 🔥 MULTI SELECT -->
 <div id="subjectsBox" style="display:none;"></div>
 
 <input id="phone" placeholder="Phone Number">
@@ -144,11 +146,9 @@ canvas{
 <script>
 
 /* LOADER */
-window.onload = ()=> {
-    document.getElementById("loader").style.display="none";
-}
+window.onload = ()=> document.getElementById("loader").style.display="none";
 
-/* CLASS LOGIC */
+/* CLASS */
 function handleClass(){
     let cls = document.getElementById("class").value;
     let group = document.getElementById("group");
@@ -159,7 +159,7 @@ function handleClass(){
 
     if(cls==="5-7"){
         box.style.display="block";
-        box.innerHTML = createCheckbox([
+        box.innerHTML = createSubjects([
             "BNG","ENG","MATH","GEO","SCIENCE","HIST","SANSKRIT"
         ]);
     }
@@ -181,21 +181,27 @@ function handleGroup(){
     box.style.display="block";
 
     if(group==="English"){
-        box.innerHTML = createCheckbox(["English"]);
+        box.style.display="none";
     }
 
     if(group==="Arts"){
-        box.innerHTML = createCheckbox(["GEO","HIST","BNG"]);
+        box.innerHTML = createSubjects(["GEO","HIST","BNG"]);
     }
 }
 
-/* CHECKBOX */
-function createCheckbox(arr){
+/* 🔥 CREATE STYLISH CHECKBOX */
+function createSubjects(arr){
     return arr.map(i=>`
-        <label>
-        <input type="checkbox" value="${i}"> ${i}
+        <label class="subject-btn">
+            <input type="checkbox" value="${i}" onclick="toggleBtn(this)">
+            ${i}
         </label>
     `).join("");
+}
+
+/* ACTIVE TOGGLE */
+function toggleBtn(el){
+    el.parentElement.classList.toggle("active");
 }
 
 /* GET SUBJECT */
@@ -206,7 +212,7 @@ function getSubjects(){
     return list.join(", ");
 }
 
-/* 🔥 FINAL MOBILE FIX */
+/* WHATSAPP */
 function sendWhatsApp(){
     let name = document.getElementById("name").value.trim();
     let cls = document.getElementById("class").value;
@@ -214,8 +220,18 @@ function sendWhatsApp(){
     let subjects = getSubjects();
     let phone = document.getElementById("phone").value.trim();
 
-    if(name==="" || cls==="" || phone==="" || subjects===""){
+    if(name==="" || cls==="" || phone===""){
         alert("Fill all details!");
+        return;
+    }
+
+    if(cls==="5-7" && subjects===""){
+        alert("Select subjects!");
+        return;
+    }
+
+    if(cls==="8-12" && group===""){
+        alert("Select group!");
         return;
     }
 
@@ -226,50 +242,10 @@ Group: ${group}
 Subjects: ${subjects}
 Phone: ${phone}`;
 
-    let url = "https://wa.me/918240358587?text=" + encodeURIComponent(msg);
+    let url = "https://api.whatsapp.com/send?phone=918240358587&text=" + encodeURIComponent(msg);
 
-    /* ✅ MOBILE WORKING */
-    window.location.href = url;
+    window.open(url, "_self");
 }
-
-/* PARTICLES */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for(let i=0;i<40;i++){
-    particles.push({
-        x:Math.random()*canvas.width,
-        y:Math.random()*canvas.height,
-        r:Math.random()*2,
-        dx:(Math.random()-0.5)*0.3,
-        dy:(Math.random()-0.5)*0.3
-    });
-}
-
-function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    particles.forEach(p=>{
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle="#00ffff";
-        ctx.fill();
-
-        p.x+=p.dx;
-        p.y+=p.dy;
-
-        if(p.x<0||p.x>canvas.width) p.dx*=-1;
-        if(p.y<0||p.y>canvas.height) p.dy*=-1;
-    });
-
-    requestAnimationFrame(animate);
-}
-animate();
 
 </script>
 
