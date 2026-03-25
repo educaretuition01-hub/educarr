@@ -27,11 +27,6 @@ body{
 }
 .loader-logo{
     width:120px;
-    animation:zoomIn 1s ease;
-}
-@keyframes zoomIn{
-    from{transform:scale(0.5); opacity:0;}
-    to{transform:scale(1);}
 }
 
 /* HEADER */
@@ -51,19 +46,18 @@ body{
 /* HERO */
 .hero{
     text-align:center;
-    padding:40px 20px;
+    padding:30px 15px;
 }
-.hero img{width:150px;}
-.hero h1{text-shadow:0 0 10px #00ffff;}
+.hero img{width:120px;}
+.hero h1{font-size:22px;text-shadow:0 0 10px #00ffff;}
 
 /* CARD */
 .card{
     background:rgba(255,255,255,0.05);
-    margin:15px auto;
+    margin:15px;
     padding:18px;
     border-radius:15px;
     backdrop-filter:blur(10px);
-    max-width:500px;
 }
 h2{color:#00ffff;}
 
@@ -85,25 +79,11 @@ button{
     font-weight:bold;
 }
 
-/* FLOAT BUTTONS */
-.icon-bar{
-    position:fixed;
-    bottom:20px;
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    padding:0 20px;
+/* CHECKBOX */
+#subjectsBox label{
+    display:block;
+    margin:5px 0;
 }
-.icon{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.1);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-.icon img{width:60%;}
 
 /* PARTICLES */
 canvas{
@@ -138,18 +118,6 @@ canvas{
     <p>Learn Smart • Score High</p>
 </div>
 
-<!-- CONTENT -->
-<div class="card">
-<h2>Founder</h2>
-<p><b>Rupak Chakraborty</b></p>
-</div>
-
-<div class="card">
-<h2>Classes</h2>
-<p>Class 5-7: All Subjects</p>
-<p>Class 8-12: Arts + English</p>
-</div>
-
 <!-- FORM -->
 <div class="card">
 <h2>Admission Form</h2>
@@ -164,23 +132,13 @@ canvas{
 
 <select id="group" onchange="handleGroup()" style="display:none"></select>
 
-<select id="subject" style="display:none"></select>
+<!-- 🔥 MULTI SELECT -->
+<div id="subjectsBox" style="display:none;"></div>
 
 <input id="phone" placeholder="Phone Number">
 
 <button onclick="sendWhatsApp()">📲 Submit via WhatsApp</button>
 
-</div>
-
-<!-- FLOAT ICONS -->
-<div class="icon-bar">
-<a href="https://wa.me/918240358587" class="icon">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
-</a>
-
-<a href="https://www.google.com/maps/search/?api=1&query=45+Malancha+Road+Garifa" class="icon">
-<img src="map.png">
-</a>
 </div>
 
 <script>
@@ -194,21 +152,16 @@ window.onload = ()=> {
 function handleClass(){
     let cls = document.getElementById("class").value;
     let group = document.getElementById("group");
-    let subject = document.getElementById("subject");
+    let box = document.getElementById("subjectsBox");
 
     group.style.display="none";
-    subject.style.display="none";
+    box.style.display="none";
 
     if(cls==="5-7"){
-        subject.style.display="block";
-        subject.innerHTML = `
-        <option>BNG</option>
-        <option>ENG</option>
-        <option>MATH</option>
-        <option>GEO</option>
-        <option>SCIENCE</option>
-        <option>HIST</option>
-        <option>SANSKRIT</option>`;
+        box.style.display="block";
+        box.innerHTML = createCheckbox([
+            "BNG","ENG","MATH","GEO","SCIENCE","HIST","SANSKRIT"
+        ]);
     }
 
     if(cls==="8-12"){
@@ -220,47 +173,62 @@ function handleClass(){
     }
 }
 
-/* GROUP LOGIC */
+/* GROUP */
 function handleGroup(){
     let group = document.getElementById("group").value;
-    let subject = document.getElementById("subject");
+    let box = document.getElementById("subjectsBox");
 
-    subject.style.display="block";
+    box.style.display="block";
 
     if(group==="English"){
-        subject.innerHTML = `<option>English</option>`;
+        box.innerHTML = createCheckbox(["English"]);
     }
 
     if(group==="Arts"){
-        subject.innerHTML = `
-        <option>GEO</option>
-        <option>HIST</option>
-        <option>BNG</option>`;
+        box.innerHTML = createCheckbox(["GEO","HIST","BNG"]);
     }
 }
 
-/* WHATSAPP FIX */
+/* CHECKBOX */
+function createCheckbox(arr){
+    return arr.map(i=>`
+        <label>
+        <input type="checkbox" value="${i}"> ${i}
+        </label>
+    `).join("");
+}
+
+/* GET SUBJECT */
+function getSubjects(){
+    let checked = document.querySelectorAll("#subjectsBox input:checked");
+    let list = [];
+    checked.forEach(c=>list.push(c.value));
+    return list.join(", ");
+}
+
+/* 🔥 FINAL MOBILE FIX */
 function sendWhatsApp(){
     let name = document.getElementById("name").value.trim();
     let cls = document.getElementById("class").value;
     let group = document.getElementById("group").value;
-    let subject = document.getElementById("subject").value;
+    let subjects = getSubjects();
     let phone = document.getElementById("phone").value.trim();
 
-    if(name==="" || cls==="" || phone===""){
+    if(name==="" || cls==="" || phone==="" || subjects===""){
         alert("Fill all details!");
         return;
     }
 
-    let msg = `New Admission:
+    let msg = `📚 New Admission
 Name: ${name}
 Class: ${cls}
 Group: ${group}
-Subject: ${subject}
+Subjects: ${subjects}
 Phone: ${phone}`;
 
-    let url = `https://api.whatsapp.com/send?phone=918240358587&text=${encodeURIComponent(msg)}`;
+    let url = "https://wa.me/918240358587?text=" + encodeURIComponent(msg);
 
+    /* ✅ MOBILE WORKING */
     window.location.href = url;
 }
 
@@ -273,13 +241,13 @@ canvas.height = window.innerHeight;
 
 let particles = [];
 
-for(let i=0;i<50;i++){
+for(let i=0;i<40;i++){
     particles.push({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
         r:Math.random()*2,
-        dx:(Math.random()-0.5)*0.4,
-        dy:(Math.random()-0.5)*0.4
+        dx:(Math.random()-0.5)*0.3,
+        dy:(Math.random()-0.5)*0.3
     });
 }
 
@@ -301,7 +269,6 @@ function animate(){
 
     requestAnimationFrame(animate);
 }
-
 animate();
 
 </script>
